@@ -1,4 +1,4 @@
-class RemoveNullConstraintsFromSpreeTables < SpreeExtension::Migration[4.2]
+class RemoveNullConstraintsFromSpreeTables < ActiveRecord::Migration[5.2]
   def up
     change_column :spree_properties, :presentation, :string, null: true
     change_column :spree_taxonomies, :name,         :string, null: true

@@ -1,4 +1,4 @@
-class AddTranslationsToOptionValue < SpreeExtension::Migration[4.2]
+class AddTranslationsToOptionValue < ActiveRecord::Migration[5.2]
   def up
     unless table_exists?(:spree_option_value_translations)
       params = { name: :string, presentation: :string }

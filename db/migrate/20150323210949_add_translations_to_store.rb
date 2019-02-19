@@ -1,4 +1,4 @@
-class AddTranslationsToStore < SpreeExtension::Migration[4.2]
+class AddTranslationsToStore < ActiveRecord::Migration[5.2]
   def up
     unless table_exists?(:spree_store_translations)
       params = { name: :string, meta_description: :text, meta_keywords: :text, seo_title: :string }

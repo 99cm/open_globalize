@@ -6,6 +6,7 @@ Spree::Admin::ProductPropertiesController.class_eval do
   end
 
   private
+
   def update_product_property_attribute
     params.require(:product_property).permit(permitted_params)
   end

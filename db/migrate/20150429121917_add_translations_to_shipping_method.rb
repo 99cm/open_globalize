@@ -1,4 +1,4 @@
-class AddTranslationsToShippingMethod < SpreeExtension::Migration[4.2]
+class AddTranslationsToShippingMethod < ActiveRecord::Migration[5.2]
   def up
     params = { name: :string }
     Spree::ShippingMethod.create_translation_table!(params, { migrate_data: true })

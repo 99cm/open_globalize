@@ -1,0 +1,2 @@
+<!-- insert_top 'li' -->
+<%= button_to t(:'i18n.translations'), spree.admin_translations_path('taxons', @taxon.id), no_text: true, icon: 'globe' %>

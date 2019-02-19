@@ -1,5 +1,5 @@
 <div id="attr_fields">
-  <% SpreeI18n::Config.available_locales.each do |locale| %>
+  <% OpenI18n::Config.available_locales.each do |locale| %>
     <%= f.globalize_fields_for locale.to_sym do |g| %>
       <% @resource.class.translated_attribute_names.each_with_index do |attr, i| %>
         <div class="panel panel-default <%= attr %> <%= locale %>" style="display:<%= i == 0 ? 'auto' : 'none' %>;">
@@ -8,7 +8,7 @@
               <%= @resource.class.human_attribute_name(attr) %>
 
               <div class="pull-right text-muted">
-                <small><i><%= Spree.t(:'i18n.this_file_language') %></i></small>
+                <small><i><%= t('i18n.this_file_language') %></i></small>
               </div>
             <% end %>
           </div>
@@ -20,10 +20,6 @@
             <% else %>
               <%= g.text_field attr, class: 'form-control' %>
             <% end %>
-
-
-
-
           </div>
         </div>
       <% end %>
@@ -31,7 +27,7 @@
   <% end %>
 
   <p class="no-translations" style="display: none">
-    <%= Spree.t(:'globalize.no_translations_for_criteria') %>
+    <%= t('spree.globalize.no_translations_for_criteria') %>
   </p>
 </div>
 

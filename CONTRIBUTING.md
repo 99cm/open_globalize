@@ -1,6 +1,6 @@
 # Contributing
 
-Spree globalize is an open source project and we encourage contributions. Please see the [contributors guidelines](http://spreecommerce.com/documentation/contributing_to_spree.html) for more information before contributing.
+Open globalize is an open source project and we encourage contributions.
 
 In the spirit of [free software][1], **everyone** is encouraged to help improve this project.
 
@@ -73,8 +73,6 @@ Some things that will increase the chance that your pull request is accepted, ta
 * Ensure specs pass by running `bundle exec rspec spec`
 * Ensure all syntax ok by running `rubocop .`
 * Submit your pull request
-
-And in case we didn't emphasize it enough: **we love tests!**
 
 [1]: http://www.fsf.org/licensing/essays/free-sw.html
 [2]: https://github.com/spree-contrib/spree_globalize/issues

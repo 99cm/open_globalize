@@ -1,13 +1,13 @@
-# Spree Globalize
+# Open Globalize
 
-[![Build Status](https://travis-ci.org/spree-contrib/spree_globalize.svg?branch=master)](https://travis-ci.org/spree-contrib/spree_globalize)
-[![Code Climate](https://codeclimate.com/github/spree-contrib/spree_globalize/badges/gpa.svg)](https://codeclimate.com/github/spree-contrib/spree_globalize)
+This is the globalization project for [Open][1].
 
-This is the globalization project extracted from `spree_i18n` for [Spree Commerce][1] version 3.1+.
+**NOTE:** If you just need to change the language of your store, and will only
+have data in database in one language, then you don't need this gem, use [open_i18n][8],
+which provides translations for static content (links, headers etc).
 
-For previous Spree versions you can just use [spree_i18n][2].
-
-See the [official Internationalization documentation][2] for more details.
+This gem adds the **model data** translation support using the [Globalize][3] gem.
+[Read more](#model-translations)
 
 Happy translating!
 
@@ -18,28 +18,29 @@ Happy translating!
 Add the following to your `Gemfile`:
 
 ```ruby
-gem 'spree_i18n', github: 'spree-contrib/spree_i18n'
-gem 'spree_globalize', github: 'spree-contrib/spree_globalize'
+gem 'globalize', github: 'globalize/globalize'
+gem 'open_i18n', github: '99cm/open_i18n'
+gem 'open_globalize', github: '99cm/open_globalize'
 ```
 
 Run `bundle install`
 
-You can use the generator to install migrations and append spree_globalize assets to
-your app spree manifest file.
+You can use the generator to install migrations and append open_globalize assets to
+your app open manifest file.
 
-    rails g spree_globalize:install
+    rails g open_globalize:install
 
-This will insert these lines into your spree manifest files:
+This will insert these lines into your open manifest files:
 
 ```
 vendor/assets/javascripts/spree/backend/all.js
-//= require spree/backend/spree_globalize
+//= require spree/backend/open_globalize
 
 vendor/assets/javascripts/spree/frontend/all.js
-//= require spree/frontend/spree_globalize
+//= require spree/frontend/open_globalize
 
 vendor/assets/stylesheets/spree/backend/all.css
-*= require spree/backend/spree_globalize
+*= require spree/backend/open_globalize
 ```
 
 ---
@@ -59,19 +60,17 @@ should be displayed as options on the translation forms and which should be
 listed to customers on the frontend. You can set them on an initializer. e.g.
 
 ```ruby
-SpreeI18n::Config.available_locales = [:en, :es, :'pt-BR'] # displayed on frontend select box
-SpreeGlobalize::Config.supported_locales = [:en, :es, :'pt-BR'] # displayed on translation forms
+OpenI18n::Config.available_locales = [:en, :es, :'pt-BR'] # displayed on frontend select box
+OpenGlobalize::Config.supported_locales = [:en, :es, :'pt-BR'] # displayed on translation forms
 ```
-
-NOTE for early adopters: `Spree::Globalize` namespace is now `SpreeGlobalize`
 
 PS. Please use symbols, not strings. e.g. `:'pt-BR'` not just `'pt-BR'`. Otherwise
 you may get unexpected errors
 
 Or if you prefer they're also available on the admin UI general settings section.
 
-*Every record needs to have a translation. If by any chance you remove `spree_globalize`
-from your Gemfile, add some records and then add `spree_globalize` gem back you might get
+*Every record needs to have a translation. If by any chance you remove `open_globalize`
+from your Gemfile, add some records and then add `open_globalize` gem back you might get
 errors like ``undefined method for nilClass`` because Globalize will try fetch
 translations that do not exist.*
 
@@ -83,12 +82,11 @@ translations that do not exist.*
 
 ---
 
-Copyright (c) 2010-2015 [Spree Commerce Inc.][1] and other [contributors][5]. released under the [New BSD License][6]
+Copyright (c) 2019 [Leo Wang][1] and other [contributors][5], released under the [New BSD License][6]. All rights reserved.
 
-[1]: http://spreecommerce.org
-[2]: http://guides.spreecommerce.org/developer/i18n.html
+[1]: https://github.com/99cm/open
 [3]: https://github.com/globalize/globalize
-[5]: https://github.com/spree-contrib/spree_globalize/graphs/contributors
-[6]: https://github.com/spree-contrib/spree_globalize/blob/master/LICENSE.md
-[7]: https://github.com/spree-contrib/spree_globalize/blob/master/CONTRIBUTING.md
-[8]: https://github.com/spree-contrib/spree_i18n
+[5]: https://github.com/99cm/open_globalize/graphs/contributors
+[6]: https://github.com/99cm/open_globalize/blob/master/LICENSE.md
+[7]: https://github.com/99cm/open_globalize/blob/master/CONTRIBUTING.md
+[8]: https://github.com/99cm/open_i18n

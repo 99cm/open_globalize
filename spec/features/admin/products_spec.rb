@@ -5,9 +5,9 @@ RSpec.feature "Products", :js do
 
   # Regression Spec: https://github.com/spree/spree_i18n/issues/386
   context "cloning" do
-    xscenario "doesnt blow up" do
+    scenario "doesnt blow up" do
       visit spree.admin_products_path
-      click_icon :clone
+      click_icon :copy
 
       expect(page).to have_text_like 'has been cloned'
     end

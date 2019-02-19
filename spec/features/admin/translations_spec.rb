@@ -1,14 +1,14 @@
 RSpec.feature "Translations", :js do
   stub_authorization!
 
-  given(:language) { Spree.t(:this_file_language, scope: 'i18n', locale: 'pt-BR') }
+  given(:language) { t('i18n.this_file_language', scope: 'spree', locale: 'pt-BR') }
   given!(:store) { create(:store) }
 
   background do
     create(:store)
     reset_spree_preferences
-    SpreeI18n::Config.available_locales = [:en, :'pt-BR']
-    SpreeGlobalize::Config.supported_locales = [:en, :'pt-BR']
+    OpenI18n::Config.available_locales = [:en, :'pt-BR']
+    OpenGlobalize::Config.supported_locales = [:en, :'pt-BR']
   end
 
   context "products" do
@@ -31,9 +31,9 @@ RSpec.feature "Translations", :js do
     context "product properties" do
       given!(:product_property) { create(:product_property, value: "red") }
 
-      xscenario "saves translated attributes properly" do
+      scenario "saves translated attributes properly" do
         visit spree.admin_product_product_properties_path(product_property.product)
-        within_row(1) { click_icon :translate }
+        within_row(1) { click_icon :globe }
 
         within("#attr_fields .value.pt-BR") { fill_in_name "vermelho" }
         click_on "Update"
@@ -48,7 +48,7 @@ RSpec.feature "Translations", :js do
 
       scenario "saves translated attributes properly" do
         visit spree.admin_option_types_path
-        within_row(1) { click_icon :translate }
+        within_row(1) { click_icon :globe }
 
         within("#attr_fields .name.en") { fill_in_name "shirt sizes" }
         within("#attr_list") { click_on "Presentation" }
@@ -78,7 +78,7 @@ RSpec.feature "Translations", :js do
 
       scenario "saves translated attributes properly" do
         visit spree.admin_option_types_path
-        within_row(1) { click_icon :translate }
+        within_row(1) { click_icon :globe }
 
         within("#attr_fields .name.en") { fill_in_name "big" }
         within("#attr_list") { click_on "Presentation" }
@@ -96,7 +96,7 @@ RSpec.feature "Translations", :js do
 
       scenario "saves translated attributes properly" do
         visit spree.admin_properties_path
-        within_row(1) { click_icon :translate }
+        within_row(1) { click_icon :globe }
 
         within("#attr_fields .name.pt-BR") { fill_in_name "Modelo" }
         within("#attr_list") { click_on "Presentation" }
@@ -115,7 +115,7 @@ RSpec.feature "Translations", :js do
 
     scenario "saves translated attributes properly" do
       visit spree.admin_promotions_path
-      within_row(1) { click_icon :translate }
+      within_row(1) { click_icon :globe }
 
       within("#attr_fields .name.en") { fill_in_name "All free" }
       within("#attr_fields .name.pt-BR") { fill_in_name "Salve salve" }
@@ -127,10 +127,10 @@ RSpec.feature "Translations", :js do
 
     it "render edit route properly" do
       visit spree.admin_promotions_path
-      within_row(1) { click_icon :translate }
+      within_row(1) { click_icon :globe }
+      expect(page).to have_current_path(%r{/admin/promotions/\d+/translations\z})
       click_on 'Cancel'
-
-      expect(page).to have_css('.content-header')
+      expect(page).to have_current_path(%r{/admin/promotions/\d+/edit\z})
     end
   end
 
@@ -139,7 +139,7 @@ RSpec.feature "Translations", :js do
 
     scenario "saves translated attributes properly" do
       visit spree.admin_taxonomies_path
-      within_row(1) { click_icon :translate }
+      within_row(1) { click_icon :globe }
 
       within("#attr_fields .name.en") { fill_in_name "Guitars" }
       within("#attr_fields .name.pt-BR") { fill_in_name "Guitarras" }
@@ -177,10 +177,11 @@ RSpec.feature "Translations", :js do
     end
   end
 
-  # this feature is broken since adding multi-store admin capabilities in Spree 3.5
-  xcontext "store" do
+  context "store" do
     scenario 'saves translated attributes properly' do
-      visit spree.admin_translations_path('stores', store)
+      visit spree.edit_admin_locales_path
+      click_link t('spree.configurations')
+      click_link t('spree.globalize.store_translations')
 
       within("#attr_fields .name.pt-BR") { fill_in_name "nome store" }
       click_on "Update"
@@ -208,28 +209,30 @@ RSpec.feature "Translations", :js do
 
     it "render edit route properly" do
       visit spree.admin_shipping_methods_path
-      within_row(1) { click_icon :translate }
+      within_row(1) { click_icon :globe }
+      expect(page).to have_current_path(%r{/admin/shipping_methods/\d+/translations\z})
       click_on 'Cancel'
 
-      expect(page).to have_css('.content-header')
+      expect(page).to have_current_path(%r{/admin/shipping_methods/\d+/edit\z})
     end
   end
 
 
   context "localization settings" do
-    given(:language) { Spree.t(:this_file_language, scope: 'i18n', locale: 'de') }
-    given(:french) { Spree.t(:this_file_language, scope: 'i18n', locale: 'fr') }
+    given(:language) { t('i18n.this_file_language', scope: 'spree', locale: 'de') }
+    given(:french) { t('i18n.this_file_language', scope: 'spree', locale: 'fr') }
 
     background do
       create(:store)
-      SpreeI18n::Config.available_locales = [:en, :'pt-BR', :de]
-      visit spree.edit_admin_general_settings_path
+      OpenI18n::Config.available_locales = [:en, :'pt-BR', :de]
+      visit spree.edit_admin_locales_path
+      click_on "Locales"
     end
 
     scenario "adds german to supported locales" do
       targetted_select2_search(language, from: '#s2id_supported_locales_')
       click_on 'Update'
-      expect(SpreeGlobalize::Config.supported_locales).to include(:de)
+      expect(OpenGlobalize::Config.supported_locales).to include(:de)
     end
   end
 
@@ -238,8 +241,8 @@ RSpec.feature "Translations", :js do
     given(:product) { create(:product) }
 
     scenario "finds the right product with permalink in a not active language" do
-      SpreeI18n::Config.available_locales = [:en, :de]
-      SpreeGlobalize::Config.supported_locales = [:en, :de]
+      OpenI18n::Config.available_locales = [:en, :de]
+      OpenGlobalize::Config.supported_locales = [:en, :de]
 
       visit spree.admin_product_path(product)
       click_on "Translations"
