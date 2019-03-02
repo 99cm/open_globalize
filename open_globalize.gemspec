@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = 'Provides globalization features for Open store.'
   s.description = s.summary
 
-  s.author      = ['Leo Wang']
+  s.author      = 'Leo Wang'
   s.homepage    = 'https://github.com/99cm/open_globalize'
   s.license     = 'BSD-3'
 
