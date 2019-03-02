@@ -82,7 +82,7 @@ translations that do not exist.*
 
 ---
 
-Copyright (c) 2019 [Leo Wang][1] and other [contributors][5], released under the [New BSD License][6]. All rights reserved.
+Copyright (c) 2019 [Leo Wang][6] and other [contributors][5], released under the [New BSD License][6]. All rights reserved.
 
 [1]: https://github.com/99cm/open
 [3]: https://github.com/globalize/globalize
